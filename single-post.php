@@ -1,6 +1,9 @@
 <?php
 include "include/connect.php";
 $Nid=$_GET['id'];
+$uid=$_COOKIE['saltelnews_user'];
+// echo $ses;
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,19 +81,44 @@ $Nid=$_GET['id'];
                 <div class="col-12 col-lg-8">
                     <div class="post-details-content mb-100">
                         <p><?php echo $rows['description'] ?></p>
-                        <img class="mb-30" src="admin/img/<?php echo $rows['image'] ?>" alt="">
+                        <?php
+                        if($rows['coverimage']){
+                            ?>
+                            <img class="mb-30" src="admin/img/<?php echo $rows['coverimage'] ?>" alt="">
+                            <?php
+                        }else{
+                            echo " ";
+                        }
+                        ?>
+                        
                         
                     </div>
                     
     <?php
     }
-    ?>
+    ?>              <div class="container-lg">
                     <form action="single-post.php?id=<?php echo $Nid ?>" method="POST">
-                    <div class="col-12 col-lg-8">
-                        <div class="row d-flex justify-between">
-                        <button type="submit" name="likeBtn" style="border: none; background-color: transparent;"><i class="fa fa-heart-o text-danger p-2" name="likeBtn" style="font-size: 40px"></i></button>
-                        <button type="submit" name="commentBtn" style="border: none; background-color: transparent;"><i class="fa fa-comment text-primary p-2"  style="font-size: 40px"></i></button>
-                        </div>
+                    <div class="col-lg-12">
+                        <div class="row d-block justify-between">
+                        <?php
+                        $user=mysqli_query($con, "SELECT * FROM likes WHERE user='$uid'");
+                        if(mysqli_num_rows($user)>0){
+                            ?>
+                            <a href="likeupdate.php?user=<?php echo $_COOKIE['saltelnews_user'] ?>&id=<?php echo $Nid ?>"><i class="fa fa-heart text-danger p-2"  style="font-size: 40px"></i></a>
+                            <?php
+                        }else{
+                            ?>
+                            <button type="submit" name="likeBtn" style="border: none; background-color: transparent;"><i class="fa fa-heart-o text-danger p-2" name="likeBtn" style="font-size: 40px"></i></button>
+                            <?php
+                        }
+                        $url="www.saltelnews.000webhostapp.com";
+                        ?>
+                        <!-- <button type="submit" name="commentBtn" style="border: none; background-color: transparent;"><i class="fa fa-comment-o text-primary p-2"  style="font-size: 40px"></i></button>  -->
+                        <a href="https://www.linkedin.com/sharing/share-offsite/url='<?php echo $url ?>'"><i class="fa fa-linkedin text-primary p-2"  style="font-size: 40px"></i></a>
+                        <a href="https://twitter.com/intent/tweet?url=''&text='<?php echo $url ?>'"><i class="fa fa-twitter text-primary p-2"  style="font-size: 40px"></i></a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u='<?php echo $url ?>'"><i class="fa fa-facebook text-primary p-2"  style="font-size: 40px"></i></a>
+                        <!-- <button type="submit" name="commentBtn" style="border: none; background-color: transparent;"><a href=""><i class="fa fa-whatsapp text-success p-2"  style="font-size: 40px"></i></a></button> -->
+                        
                         <?php
                         $Lsql=mysqli_query($con, "SELECT COUNT(id) as likes FROM likes WHERE n_id=$Nid;");
                         $Csql=mysqli_query($con, "SELECT COUNT(id) as comments FROM comment WHERE n_id=$Nid;");
@@ -100,9 +128,35 @@ $Nid=$_GET['id'];
                         <p>Likes <?php echo $Lcount['likes'] ?> and <?php echo $Ccount['comments'] ?> comment</p>
                     </div>
                     </form>
+                    
+                            
+                            
+                        </div>
+                        </div>
                         <!-- Comment Area Start -->
                     <div class="comment_area clearfix mb-100">
-                        <h4 class="mb-50">Comments</h4>
+                        
+                        <div class="post-a-comment-area mb-30 clearfix">
+                        <h4 class="mb-50">Leave a comment</h4>
+
+                        <!-- Reply Form -->
+                        <div class="contact-form-area">
+                            <form action="single-post.php?id=<?php echo $Nid ?>" method="post">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="text" class="form-control" name="name" id="name" placeholder="Name*">
+                                    </div>
+                                    <div class="col-12 ">
+                                        <input type="text" class="form-control" name="comment" id="email" placeholder="Type Comment*">
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn newsbox-btn mt-10" name="Cbtn" type="submit"><i class="fa fa-send text-white"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <h4 class="mb-50">Comments</h4>
                         <!-- single accordian area -->
                         <ol>
                         
@@ -141,36 +195,23 @@ $Nid=$_GET['id'];
                         
                     </div>
 
-                    <div class="post-a-comment-area mb-30 clearfix">
-                        <h4 class="mb-50">Leave a comment</h4>
-
-                        <!-- Reply Form -->
-                        <div class="contact-form-area">
-                            <form action="single-post.php?id=<?php echo $Nid ?>" method="post">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <input type="text" class="form-control" name="name" id="name" placeholder="Name*">
-                                    </div>
-                                    <div class="col-12 ">
-                                        <input type="text" class="form-control" name="comment" id="email" placeholder="Type Comment*">
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn newsbox-btn mt-30" name="Cbtn" type="submit">Submit Comment</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                    
                         <?php
                     if(isset($_POST['likeBtn'])){
                         $like = 1;
                         $date= date('y-m-d');
-                        $sql=mysqli_query($con, "INSERT INTO likes VALUES ('','$like','$Nid')");
+                        $max=250;
+                        $min=100;
+                        $gen=rand($max, $min);
+                        $_SESSION['session']=$gen;
+                        $ses = $_SESSION['session'];
+                        $sql=mysqli_query($con, "INSERT INTO likes (likes,n_id,user) VALUES ('$like','$Nid','$uid')");
                         if($sql){
-                            echo "<script>window.location='single-post.php?id=$Nid'</script>";
+                            echo "<script>window.location='single-post.php?id=$Nid&session=$ses'</script>";
                         }
 
                     }
+                    
                     
                     if(isset($_POST['Cbtn'])){
                         $name=$_POST['name'];
@@ -228,24 +269,19 @@ $Nid=$_GET['id'];
 
                         <!-- Latest News Widget -->
                         <div class="single-widget-area news-widget mb-30">
-                            <h4>Latest News</h4>
+                            <h4>Announcement</h4>
 
                             <?php
-                            $sql=mysqli_query($con, "SELECT * FROM add_news ORDER BY n_id ASC LIMIT 5;");
+                            $sql=mysqli_query($con, "SELECT * FROM announcement ORDER BY id ASC LIMIT 5;");
                             while($Nrows=mysqli_fetch_array($sql)){
-                                $Cname=$Nrows['n_id'];
+                                $Cname=$Nrows['id'];
                                 ?>
                             <!-- Single News Area -->
                             <div class="single-blog-post d-flex style-4 mb-30">
-                                <!-- Blog Thumbnail -->
-                                <div class="blog-thumbnail">
-                                    <a href="#"><img src="admin/img/<?php echo $Nrows['image'] ?>" alt=""></a>
-                                </div>
-
                                 <!-- Blog Content -->
                                 <div class="blog-content">
-                                    <span class="post-date"><?php echo $Nrows['date'] ?></span>
-                                    <a href="single-post.php?id=<?php echo $Cname ?>" class="post-title"><?php echo $Nrows['title'] ?></a>
+                                    <p class="post-title"><?php echo $Nrows['description'] ?></p>
+                                    <span class="post-date"><?php echo $Nrows['date'] ?></span> / <?php echo $Nrows['u_id'] ?>
                                 </div>
                             </div>
                             <?php

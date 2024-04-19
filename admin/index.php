@@ -1,9 +1,12 @@
 <?php
 include "include/connect.php";
 session_start();
-if(!$_SESSION["idd"]){
+if(!@$_SESSION["idd"]){
   session_destroy();
-  header("location: login.php");
+  echo "<script>window.location=' login.php'</script>";
+  echo "
+  <div class='alert alert-success alert-dismissible fade show'><strong>Failed!</strong> Please Login</div>
+  ";
 }
 ?>
 <!DOCTYPE html>

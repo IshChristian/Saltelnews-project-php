@@ -11,9 +11,11 @@
                         <!-- Footer Nav -->
                         <div class="footer-nav">
                             <ul>
-                                <li><a href="#">Contact Us</a></li>
-                                <li><a href="#">Closed Captioning</a></li>
-                                <li><a href="#">Site Map</a></li>
+                            <li><a href="index.php">Home</a></li>
+                            <li><a href="category.php">Category</a></li>
+                            <li><a href="contact.php">Contact US</a></li>
+                            <li><a href="adverstising.php">Adverstising</a></li>
+                            <li><a href="mailto:ishimwechristia94@gmail.com">Feedback</a></li>
                             </ul>
                         </div>
                         <!-- Social Info -->
@@ -26,7 +28,7 @@
                             <a href="#" data-toggle="tooltip" data-placement="top" title="linkedin"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                         </div>
 
-                        <p class="mb-15">Nullam lacinia ex eleifend orci porttitor, suscipit interdum augue condimentum. Etiam pretium turpis eget nibh laoreet iaculis. Proin ac urna at lectus volutpat lobortis. Vestibulum venenatis iaculis diam vitae lobortis. Donec tincidunt viverra elit, sed consectetur est pr etium ac. Mauris nec mauris tellus. </p>
+                        <!-- <p class="mb-15">Nullam lacinia ex eleifend orci porttitor, suscipit interdum augue condimentum. Etiam pretium turpis eget nibh laoreet iaculis. Proin ac urna at lectus volutpat lobortis. Vestibulum venenatis iaculis diam vitae lobortis. Donec tincidunt viverra elit, sed consectetur est pr etium ac. Mauris nec mauris tellus. </p> -->
 
                         <!-- Copywrite Text -->
                         <p class="copywrite-text"><a href="#">

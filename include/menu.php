@@ -25,10 +25,7 @@
                             <!-- Nav Start -->
                             <div class="classynav">
                                 <ul>
-                                    <li><a href="index.php">Home</a>
-                                        
-                                    </li>
-                                    <!-- <li><a href="">Trending News</a></li> -->
+                                    <li><a href="index.php">Home</a></li>
                                     <li><a href="category.php">Category</a></li>
                                     <li><a href="contact.php">Contact US</a></li>
                                     <li><a href="adverstising.php">Adverstising</a></li>
@@ -50,8 +47,6 @@
                                     </a>
                                     </div>
                                     <?php
-                                }else{
-                                    echo "NO";
                                 }
                                
                                 ?>

@@ -14,14 +14,6 @@ include "include/connect.php";
 
 <body>
     <!-- Preloader -->
-    <div class="preloader d-flex align-items-center justify-content-center">
-        <div class="lds-ellipsis">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>
 
     <!-- ##### Header Area Start ##### -->
     <?php
@@ -157,31 +149,27 @@ include "include/connect.php";
                     </div>
 
                     <!-- Latest News Widget -->
-                    <div class="single-widget-area news-widget mb-30">
-                        <h4>Latest News</h4>
+                     <!-- Latest News Widget -->
+                     <div class="single-widget-area news-widget mb-30">
+                            <h4>Announcement</h4>
 
-                        <?php
-                            $sql=mysqli_query($con, "SELECT * FROM add_news ORDER BY n_id ASC LIMIT 5;");
+                            <?php
+                            $sql=mysqli_query($con, "SELECT * FROM announcement ORDER BY id ASC LIMIT 5;");
                             while($Nrows=mysqli_fetch_array($sql)){
-                                $Cname=$Nrows['n_id'];
+                                $Cname=$Nrows['id'];
                                 ?>
                             <!-- Single News Area -->
                             <div class="single-blog-post d-flex style-4 mb-30">
-                                <!-- Blog Thumbnail -->
-                                <div class="blog-thumbnail">
-                                    <a href="#"><img src="admin/img/<?php echo $Nrows['image'] ?>" alt=""></a>
-                                </div>
-
                                 <!-- Blog Content -->
                                 <div class="blog-content">
-                                    <span class="post-date"><?php echo $Nrows['date'] ?></span>
-                                    <a href="single-post.php?id=<?php echo $Cname ?>" class="post-title"><?php echo $Nrows['title'] ?></a>
+                                    <p class="post-title"><?php echo $Nrows['description'] ?></p>
+                                    <span class="post-date"><?php echo $Nrows['date'] ?></span> / <?php echo $Nrows['u_id'] ?>
                                 </div>
                             </div>
                             <?php
                             }
                             ?>
-                    </div>
+                        </div>
 
                 </div>
             </div>

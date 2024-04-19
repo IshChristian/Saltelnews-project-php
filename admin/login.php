@@ -33,30 +33,22 @@ session_start();
                 <h3 class="card-title text-left mb-3">Login</h3>
                 <form action="login.php" method="POST">
                   <div class="form-group">
-                    <label>Username or email *</label>
-                    <input type="text" name="name" class="form-control p_input">
+                    <label>Username *</label>
+                    <input type="text" name="name" class="form-control p_input" required>
                   </div>
                   <div class="form-group">
                     <label>Password *</label>
-                    <input type="text" name="password" class="form-control p_input">
+                    <input type="text" name="password" class="form-control p_input" required>
                   </div>
                   <div class="form-group d-flex align-items-center justify-content-between">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input"> Remember me </label>
                     </div>
-                    <a href="#" class="forgot-pass">Forgot password</a>
+                    <a href="../member/." class="forgot-pass">Login as member</a>
                   </div>
                   <div class="text-center">
                     <button type="submit" name="btn" class="btn btn-primary btn-block enter-btn">Login</button>
                   </div>
-                  <div class="d-flex">
-                    <button class="btn btn-facebook mr-2 col">
-                      <i class="mdi mdi-facebook"></i> Facebook </button>
-                    <button class="btn btn-google col">
-                      <i class="mdi mdi-google-plus"></i> Google plus </button>
-                  </div>
-                  <p class="sign-up">Don't have an Account?<a href="#"> Sign Up</a></p>
                 </form>
               </div>
             </div>
@@ -89,9 +81,9 @@ session_start();
       $sql=mysqli_query($con, "SELECT * FROM admin");
       $rows=mysqli_fetch_array($sql);
       $_SESSION['idd'] = $rows['name'];
+      $uid=$_SESSION['idd'];
       if($name === $rows['name'] && $password === $rows['password']){
-        // header("location: index.php?".$_SESSION['idd']."");
-        echo "<script>window.location='index.php?".$_SESSION['idd']."'</script>";
+        echo "<script>window.location='index.php?$uid'</script>";
       }else{
         echo "INVALID USERNAME OR PASSWORD";
       }

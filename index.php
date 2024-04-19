@@ -1,3 +1,4 @@
+
 <?php
 include "include/connect.php";
 ?>
@@ -9,20 +10,132 @@ include "include/connect.php";
    <?php
    include "include/links.php";
    ?>
+   <style>
+    .cookie-popup {
+    position: fixed;
+    bottom: 2em;
+    left: 2em;
+    width: 350px;
+    background-color: #242424;
+    padding: 1.5em;
+    }
+
+    .cookie-popup * {
+        color: #fff;
+    }
+
+    .cookie-popup .title {
+        font-size: 1.6em;
+        letter-spacing: 0.4px;
+        margin-bottom: 0.5em;
+    }
+
+    .cookie-popup .info {
+        line-height: 1.4em;
+        letter-spacing: 0.4px;
+        margin-bottom: 2em;
+    }
+
+    .cookie-popup .cta {
+        border: none;
+        outline: none;
+        padding: 0.8em 1.5em;
+        background-color: black;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.4s;
+    }
+
+    .cookie-popup .cta:hover {
+        background-color: #3c9e66;
+    }
+
+    .cookie-popup a {
+        text-decoration: none;
+        border-bottom: 1px solid;
+        transition: color 0.4s;
+    }
+
+    .cookie-popup a.settings {
+        color: #bbb;
+        margin-left: 1em;
+        border-bottom: none;
+    }
+
+    .cookie-popup a:hover {
+        color: #3c9e66;
+    }
+
+   </style>
 
 </head>
 
 <body>
     <!-- Preloader -->
-    <div class="preloader d-flex align-items-center justify-content-center">
+     <div class="preloader d-flex align-items-center justify-content-center">
         <div class="lds-ellipsis">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+         <div></div>
+             <div></div>
+             <div></div>
+             <div></div>
+         </div>
+     </div>
+    <?php
+    function generateRandomUsername($length = 8) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $username = '';
+        for ($i = 0; $i < $length; $i++) {
+            $username .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $username;
+    }
+    
+    // Check if the cookie is set, if not display the popup
+    // echo $_COOKIE['username'];
+    if (!isset($_COOKIE['saltelnews_user'])) {
+        echo '
+        <div class="cookie-popup" style="z-index: 999;">
+        <p class="title">Allow Cookies</p>
+        <p class="info">By using this website, you automatically accept that we use cookies. <a href="#">Read more</a>
+        </p>
+        <button id="accept-cookies" class="cta">Accept all</button>
+        
     </div>
-
+    ';
+    }
+    ?>
+    
+    <script>
+    // JavaScript to handle the popup and setting the cookie
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        var popup = document.getElementById('cookie-popup');
+        var acceptButton = document.getElementById('accept-cookies');
+    
+        acceptButton.addEventListener('click', function() {
+            // Generate a random username
+            var username = '<?php echo generateRandomUsername(); ?>';
+    
+            // Set cookie to expire in 30 days
+            var expires = new Date();
+            expires.setTime(expires.getTime() + (30 * 24 * 60 * 60 * 1000));
+            document.cookie = 'saltelnews_user=' + username + ';expires=' + expires.toUTCString() + ';path=/';
+            window.location='index.php';
+    
+            // Set username in the session
+            <?php $_SESSION['saltelnews_user'] = "' + saltelnews_user + '"; ?>
+    
+            // Hide the popup
+            popup.style.display = 'none';
+             
+            window.location='index.php?';
+        });
+    });
+    </script>
+    
+    
+    
     <!-- ##### Header Area Start ##### -->
     <?php
     include "include/menu.php";
@@ -41,9 +154,15 @@ include "include/connect.php";
                         </div>
                         <div id="breakingNewsTicker" class="ticker">
                             <ul>
-                                <li><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum.</a></li>
-                                <li><a href="#">Welcome to Colorlib Family.</a></li>
-                                <li><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque</a></li>
+                            <?php
+                            $sql=mysqli_query($con, "SELECT * FROM add_news ORDER BY n_id DESC LIMIT 3;");
+                            while($rows=mysqli_fetch_array($sql)){
+                                $Nid=$rows['n_id'];
+                                ?>
+                                <li><a href="single-post.php?id=<?php echo $Nid ?>"><?php echo $rows['title'] ?></a></li>
+                                <?php
+                            }
+                                ?>
                             </ul>
                         </div>
                     </div>
@@ -84,7 +203,7 @@ include "include/connect.php";
                                 <div class="row">
                           
                             <?php
-                            $sql=mysqli_query($con, "SELECT * FROM add_news ORDER BY date DESC LIMIT 6;");
+                            $sql=mysqli_query($con, "SELECT * FROM add_news ORDER BY n_id DESC LIMIT 12;");
                             while($rows=mysqli_fetch_array($sql)){
                                 $Nid=$rows['n_id'];
                                 ?>
@@ -98,9 +217,9 @@ include "include/connect.php";
 
                                         <!-- Blog Content -->
                                         <div class="blog-content">
-                                            <span class="post-date"><?php echo $rows['date'] ?></span>
+                                            <span class="post-date"><?php echo $rows['date'] ?></span> / <span class="post-date text-danger"><?php echo $rows['category'] ?>
                                             <a href="single-post.php?id=<?php echo $Nid ?>" class="post-title"><?php echo $rows['title'] ?></a>
-                                            <a href="single-post.php?id=<?php echo $Nid ?>" class="post-author">By IshChristian</a>
+                                            <a href="single-post.php?id=<?php echo $Nid ?>" class="post-author">By <?php echo $rows['u_id'] ?></a>
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +269,26 @@ include "include/connect.php";
                         <img src="img/<?php echo $ad['image'] ?>" alt="">
                         </a>
                     </div>
-
+                     <!-- Latest News Widget -->
+                     <div class="single-widget-area news-widget mb-30">
+                            <h4>Announcement</h4>
+                            <?php
+                            $sql=mysqli_query($con, "SELECT * FROM announcement ORDER BY id ASC LIMIT 5;");
+                            while($Nrows=mysqli_fetch_array($sql)){
+                                $Cname=$Nrows['id'];
+                                ?>
+                            <!-- Single News Area -->
+                            <div class="single-blog-post d-flex style-4 mb-30">
+                                <!-- Blog Content -->
+                                <div class="blog-content">
+                                    <p class="post-title"><?php echo $Nrows['description'] ?></p>
+                                    <span class="post-date"><?php echo $Nrows['date'] ?></span> / <?php echo $Nrows['u_id'] ?>
+                                </div>
+                            </div>
+                            <?php
+                            }
+                            ?>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -202,7 +340,9 @@ include "include/connect.php";
                     </div>
                 </div>
 
+
             </div>
+            
         </div>
     </div>
     <!-- ##### Top News Area End ##### -->
@@ -219,6 +359,8 @@ include "include/connect.php";
                         </a>
         </div>
     </div>
+
+    
     <!-- ##### Add Area End ##### -->
 
     <!-- ##### Footer Area Start ##### -->
