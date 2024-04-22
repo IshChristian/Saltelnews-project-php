@@ -23,5 +23,23 @@
     include "getmessage.php";
   }
           ?>
+
+           <script>
+            function fetchMessage(){
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                  if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("msgBody").innerHTML = this.responseText;
+                  }
+                };
+                xhttp.open("GET", "realtimeChat.php?uid=<?php echo $rid ?>&sid=<?php echo $sid ?>", true);
+                xhttp.send();
+              }
+              fetchMessage();
+              setInterval(fetchMessage, 700);
+           </script>
+           <script>
+            document.getElementById("msgBody").scrollTop = document.getElementById("msgBody").scrollHeight;
+          </script>
   </body>
 </html>

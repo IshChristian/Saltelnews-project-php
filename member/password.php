@@ -70,7 +70,8 @@ session_start();
       $password = $_POST['password'];
 
       $sql=mysqli_query($con, "SELECT * FROM member WHERE name='$name' AND password='$password'");
-      if($sql){
+      $rows=mysqli_fetch_array($sql);
+      if($rows['name'] == $name && $rows['password'] == $password){
         echo "<script>window.location='index.php?$name'</script>";
       }else{
         echo "<script>alert('INVALID INFORMATION, USERNAME OR PASSWORD')</script>";

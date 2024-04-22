@@ -2,8 +2,11 @@
 <link rel="stylesheet" href="msg_assets/style.css">
   <style>
     .msger-chat{
-      max-height: 30rem;
+      max-height: 25rem;
       overflow-y: scroll;
+      /* direction: rtl; */
+      /* scrollbar-width: thin;
+      scrollbar-color: lightgray darkgray; */
     }
   </style>
   </head>
@@ -36,14 +39,16 @@
             <section class="msger">
             <header class="msger-header">
               <div class="msger-header-title">
-                <i class="fas fa-comment-alt"></i> <?php echo $rowsre['name'] ?>
+                <i id="toUser" class="fas fa-comment-alt"></i> <?php echo $rowsre['name'] ?>
+                <input type="text" name="fromUser" value="<?php echo $_SESSION['idd'] ?>" id="fromUser" hidden>
+                <input type="text" name="toUser" value="<?php echo $rowsre['name'] ?>" id="toUser" hidden>
               </div>
               <div class="msger-header-options">
                 <span><i class="fas fa-cog"></i></span>
               </div>
             </header>
 
-            <main class="msger-chat">
+            <main class="msger-chat" id="msgBody">
               <?php
                // Fetch messages from database
             // $conn=mysqli_connect('localhost','root','','sampler_db');
@@ -55,21 +60,12 @@
                 if($is_sender){
                   ?>
                   <div class="msg <?php echo $is_sender ?>-msg">
-                  <!-- <div
-                  class="msg-img"
-                  style="background-image: url(msg_assets/male.jpg)";
-                  ></div> -->
-  
                   <div class="msg-bubble" style="color: white ">
-                    <div class="msg-info">
-                      <!-- <div class="msg-info-name">You</div> -->
-                      <div class="msg-info-time"><?php echo $msg['timestamp'] ?></div>
-                    </div>
-  
-                    <div class="msg-text">
+                    <div class="msg-text" id="message">
                     <?php echo $msg['message'] ?>
                     </div>
-                  </div>
+                  </div><br>
+                  
                 </div>
                   <?php
               }
@@ -86,8 +82,8 @@
             </main>
 
             <form action="message.php?uid=<?php echo $rid ?>&sid=<?php echo $sid ?>" method="post" class="msger-inputarea">
-              <input type="text" name="message" class="msger-input" placeholder="Enter your message..." required>
-              <button type="submit" name="btn" class="msger-send-btn">Send</button>
+              <input type="text" name="message" id="msg" class="msger-input" placeholder="Enter your message..." required>
+              <button type="submit" name="btn" id="send" class="msger-send-btn">Send</button>
             </form>
           </section>
           </div>
@@ -100,19 +96,19 @@
           <script src="msg_assets/script.js"></script>
           <?php
             // Process sending message
-            if (isset($_POST['btn'])) {
+            if (isset($_POST['message'])) {
                 $sender = $_SESSION["idd"];
                 $receiver = $rowsre['name'];
                 $message = $_POST['message'];
                 $sql = "INSERT INTO message (sender,receiver, message, timestamp,rid,sid,view) VALUES ('$sender','$receiver', '$message', NOW(),'$rid','$sid','0')";
                 mysqli_query($con, $sql); 
-                if($sql){
-                  echo "<script>window.location = 'message.php?uid=$rid&sid=$sid'; </script>";
-                }else{
+                if(!$sql){
                   echo "<script>alert('SORRY, TRY AGAIN')</script>";
                 }
           }
        
           ?>
+          
+         
   </body>
 </html>

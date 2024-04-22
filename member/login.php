@@ -81,9 +81,9 @@ session_start();
       $mid = $rows['m_id'];
       $uid=$_SESSION['idd'];
       $set=mysqli_query($con, "UPDATE member SET status='online' WHERE m_id='$mid'");
-      if($rows['password'] == '' && $set){
+      if($rows['password'] == '' && $rows['name'] == $name && $set){
         echo "<script>window.location='setpassword.php?name=$uid'</script>";
-      }else if($rows['password'] !== '' && $set){
+      }else if($rows['password'] !== '' && $rows['name'] == $name && $set){
         echo "<script>window.location='password.php?name=$uid'</script>";
       }else{
         echo "<script>alert('INVALID INFORMATION, USERNAME OR PASSWORD')</script>";
