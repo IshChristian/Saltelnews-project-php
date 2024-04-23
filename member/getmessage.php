@@ -3,7 +3,8 @@
   <style>
     .msger-chat{
       max-height: 25rem;
-      overflow-y: scroll;
+      overflow-y: auto;
+      flex-direction: column-reverse;
       /* direction: rtl; */
       /* scrollbar-width: thin;
       scrollbar-color: lightgray darkgray; */
@@ -44,7 +45,7 @@
                 <input type="text" name="toUser" value="<?php echo $rowsre['name'] ?>" id="toUser" hidden>
               </div>
               <div class="msger-header-options">
-                <span><i class="fas fa-cog"></i></span>
+                <span><i class="mdi mdi-send"></i></span>
               </div>
             </header>
 

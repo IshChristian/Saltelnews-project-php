@@ -22,6 +22,8 @@ $sql = "SELECT * FROM message WHERE (sid=$sid AND rid=$rid) OR (sid=$rid AND rid
                   <?php
               }
               }
+            }else{
+              echo "<p class='text-success text-center'><i> NO MESSAGE </i> </p>";
             }
 
 

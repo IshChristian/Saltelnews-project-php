@@ -36,7 +36,7 @@
                 xhttp.send();
               }
               fetchMessage();
-              setInterval(fetchMessage, 700);
+              setInterval(fetchMessage, 500);
            </script>
            <script>
             document.getElementById("msgBody").scrollTop = document.getElementById("msgBody").scrollHeight;
