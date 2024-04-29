@@ -37,7 +37,7 @@ $uid=$_SESSION['idd'];
                   <div class="card-body">
                     <h4 class="card-title">Announcement</h4>
                     <!-- <p class="card-description"> Basic form elements </p> -->
-                    <form action="addAnnocement.php" method="POST">
+                    <form action="addAnnocement.php?name=<?php echo $_SESSION['member_name'] ?>" method="POST">
                       <div class="form-group">
                         <textarea name="about" id="" class="form-control" placeholder="Type here ..."></textarea>
                       </div>
@@ -100,7 +100,7 @@ $uid=$_SESSION['idd'];
             $sql=mysqli_query($con, "INSERT INTO announcement (description,date,u_id) VALUES ('$about','$date','$uid')");
             if($sql){
               echo "<script>alert('DATA SAVED SUCCESSFULLY')</script>";
-              echo "<script>window.location = 'addAnnocement.php'; </script>";
+              echo "<script>window.location = 'addAnnocement.php?name=".$_SESSION['member_name']."</script>";
             }else{
               echo "<script>alert('SORRY, TRY AGAIN')</script>";
             }

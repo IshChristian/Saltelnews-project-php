@@ -16,7 +16,6 @@ $sql = "SELECT * FROM message WHERE (sid=$sid AND rid=$rid) OR (sid=$rid AND rid
                     <div class="msg-text" id="message">
                     <?php echo $msg['message'] ?>
                     </div>
-                    
                   </div>
                 </div>
                   <?php

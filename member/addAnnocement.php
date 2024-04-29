@@ -1,6 +1,7 @@
 <?php
 session_start();
 $uid=$_SESSION['idd'];
+ 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +38,7 @@ $uid=$_SESSION['idd'];
                   <div class="card-body">
                     <h4 class="card-title">Announcement</h4>
                     <!-- <p class="card-description"> Basic form elements </p> -->
-                    <form action="addAnnocement.php" method="POST">
+                    <form action="addAnnocement.php?name=<?php echo $_SESSION['member_name'] ?>" method="POST">
                       <div class="form-group">
                         <textarea name="about" id="" class="form-control" placeholder="Type here ..."></textarea>
                       </div>
@@ -93,19 +94,75 @@ $uid=$_SESSION['idd'];
           include "include/footer.php";
           ?>
           <?php
-          if(isset($_POST['btn'])){
-            $about=$_POST['about'];
-            $date=date('y/m/d h:i:sa');
-            echo $date;
-            $sql=mysqli_query($con, "INSERT INTO announcement (description,date,u_id) VALUES ('$about','$date','$uid')");
-            if($sql){
-              echo "<script>alert('DATA SAVED SUCCESSFULLY')</script>";
-              echo "<script>window.location = 'addAnnocement.php'; </script>";
-            }else{
-              echo "<script>alert('SORRY, TRY AGAIN')</script>";
+        // require 'vendor/autoload/';
+    require 'vendor/autoload.php';
+
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
+    use PHPMailer\PHPMailer\SMTP;
+    // use assets\vendors\phpmailer\phpmailer\phpmailer
+    // require 'PHPMailer/src/PHPMailer.php';
+    // require 'PHPMailer/src/Exception.php';
+    require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
+    require 'vendor/phpmailer/phpmailer/src/Exception.php';
+    require 'vendor/phpmailer/phpmailer/src/SMTP.php';
+    // require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
+if(isset($_POST['btn'])){
+    // SMTP Configuration
+    $mail = new PHPMailer(true); // Passing `true` enables exceptions
+    try {
+        // Server settings
+        $mail->isSMTP(); // Set mailer to use SMTP
+        $mail->Host = 'smtp.gmail.com'; // SMTP host
+        $mail->SMTPAuth = true;
+        $mail->Username = 'ishimwechristia94@gmail.com'; // SMTP username
+        $mail->Password = '0783231058'; // SMTP password
+        $mail->SMTPSecure = 'tls'; // Enable TLS encryption, `ssl` also accepted
+        $mail->Port = 465; // TCP port to connect to
+
+        // $sub = mysqli_query($con, "SELECT * FROM subscribe");
+        // while($row = $sub->fetch_assoc()) {
+        //     $mail->addAddress($row["email"]); // Add recipient
+        // }
+        //Recipients
+        $mail->setFrom('ishimwechristia94@gmail.com', 'ishimwe christian');
+        $mail->addAddress('ishimwechris94@gmail.com', 'ishimwe chris');
+
+        // Content
+        // $mail->addAddress('ishimwechris94@gmail.com');
+        $mail->isHTML(true); // Set email format to HTML
+        $mail->Subject = 'Subject of the Email';
+        $mail->Body = 'Body of the Email';
+
+        // Send Email
+        if (!$mail->send()) {
+            echo 'Message could not be sent.';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+        }
+
+        $about=$_POST['about'];
+        $date=date('y/m/d h:i:sa');
+        echo $date;
+        $sql=mysqli_query($con, "INSERT INTO announcement (description,date,u_id) VALUES ('$about','$date','$uid')");
+        if($sql){
+            $to=$res['email'];
+            $subject="Saltel Announcement";
+            $message=$_POST['about'];
+            function sendEmail($to, $subject, $message) {
+                mail($to, $subject, $message);
             }
-          }
-          
-          ?>
+            sendEmail($to, $subject, $message);
+            echo "<script>alert('DATA SAVED SUCCESSFULLY')</script>";
+            echo "<script>window.location = 'addAnnocement.php?name=".$_SESSION['member_name']."'</script>";
+        } else {
+            echo "<script>alert('SORRY, TRY AGAIN')</script>";
+        }
+    } catch (Exception $e) {
+        echo 'Message could not be sent.';
+        echo 'Mailer Error: ' . $mail->ErrorInfo;
+    }
+}
+?>
+
   </body>
 </html>

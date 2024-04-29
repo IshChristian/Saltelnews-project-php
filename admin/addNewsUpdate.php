@@ -40,7 +40,7 @@
                     $sql=mysqli_query($con, "SELECT * FROM add_News WHERE n_id=$nid");
                     $rows=mysqli_fetch_array($sql);
                     ?>
-                    <form action="addNewsUpdate.php?nid=<?php echo $nid ?>" method="POST" enctype="multipart/form-data" class="forms-sample">
+                    <form action="addNewsUpdate.php?name=<?php echo $_SESSION['member_name'] ?>&nid=<?php echo $nid ?>" method="POST" enctype="multipart/form-data" class="forms-sample">
                       <div class="form-group">
                         <label for="exampleInputName1">Title</label>
                         <input type="text" class="form-control" name="title" id="exampleInputName1" value="<?php echo $rows['title'] ?>" placeholder="Name">
@@ -96,7 +96,7 @@
             $sql=mysqli_query($con, "UPDATE add_news SET title='$tlt', category='$cat', description='$about', image='$imgName', date='$date' WHERE n_id=$nid");
             if($sql){
               echo "<script>alert('DATA SAVED SUCCESSFULLY')</script>";
-              echo "<script>window.location = 'addNewsUpdate.php?nid=$nid'; </script>";
+              echo "<script>window.location = 'addNewsUpdate.php?name=".$_SESSION['member_name']."'&nid=$nid'; </script>";
             }else{
               echo "<script>alert('SORRY, TRY AGAIN')</script>";
             }

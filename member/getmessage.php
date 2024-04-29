@@ -45,7 +45,7 @@
                 <input type="text" name="toUser" value="<?php echo $rowsre['name'] ?>" id="toUser" hidden>
               </div>
               <div class="msger-header-options">
-                <span><i class="mdi mdi-send"></i></span>
+                <!-- <span><i class="mdi mdi-send"></i></span> -->
               </div>
             </header>
 

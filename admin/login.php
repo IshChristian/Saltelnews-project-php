@@ -78,14 +78,14 @@ session_start();
       $name = $_POST['name'];
       $password = $_POST['password'];
 
-      $sql=mysqli_query($con, "SELECT * FROM admin");
+      $sql=mysqli_query($con, "SELECT * FROM admin WHERE name='$name'");
       $rows=mysqli_fetch_array($sql);
-      $_SESSION['idd'] = $rows['name'];
-      $uid=$_SESSION['idd'];
-      if($name === $rows['name'] && $password === $rows['password']){
-        echo "<script>window.location='index.php?$uid'</script>";
+      $hash_password=$rows['password'];
+      if(password_verify($password, $hash_password)){
+        $_SESSION['member_name']=$name;
+        echo "<script>window.location='index.php?name=$name'</script>";
       }else{
-        echo "INVALID USERNAME OR PASSWORD";
+        echo "<script>alert('INVALID INFORMATION, USERNAME OR PASSWORD')</script>";
       }
     }
     ?>

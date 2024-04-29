@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
+  session_start();
   include "include/links.php";
   include "include/connect.php";
+  if(!@$_SESSION['member_name']){
+    echo "<script>window.location='login.php'</script>";
+    exit();
+}
   ?>
   </head>
   <body>

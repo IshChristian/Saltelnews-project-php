@@ -69,10 +69,12 @@ session_start();
       $name = $_GET['name'];
       $password = $_POST['password'];
 
-      $sql=mysqli_query($con, "SELECT * FROM member WHERE name='$name' AND password='$password'");
+      $sql=mysqli_query($con, "SELECT * FROM member WHERE name='$name'");
       $rows=mysqli_fetch_array($sql);
-      if($rows['name'] == $name && $rows['password'] == $password){
-        echo "<script>window.location='index.php?$name'</script>";
+      $hash_password=$rows['password'];
+      if(password_verify($password, $hash_password)){
+        $_SESSION['member_name']=$name;
+        echo "<script>window.location='index.php?name=$name'</script>";
       }else{
         echo "<script>alert('INVALID INFORMATION, USERNAME OR PASSWORD')</script>";
       }

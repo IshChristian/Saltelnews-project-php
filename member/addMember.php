@@ -4,6 +4,7 @@
  session_start();
   include "include/links.php";
   include "include/connect.php";
+  
   ?>
   </head>
   <body>
@@ -34,16 +35,20 @@
                   <div class="card-body">
                     <h4 class="card-title">Member</h4>
                     <!-- <p class="card-description"> Basic form elements </p> -->
-                    <form action="addMember.php" method="POST">
+                    <form action="addMember.php?name=<?php echo $_SESSION['member_name'] ?>" method="POST">
                       <div class="form-group">
-                        <label for="exampleInputName1">Name</label>
-                        <input type="text" class="form-control" name="username" id="exampleInputName1" placeholder="Name">
+                        <label for="exampleInputName1">Username</label>
+                        <input type="text" class="form-control" name="username" id="exampleInputName1" placeholder="username">
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputName1">Sex</label>
-                        <input type="radio" value="male" class="form-control" name="sex">Male
-                        <input type="radio" value="female" class="form-control" name="sex">Female
+                      <label for="exampleInputName1">Sex</label>
+                      <select name="sex" class="form-control">
+                        <option value="" class="form-control">Please select sex</option>
+                        <option value="Male" class="form-control">Male</option>
+                        <option value="Female" class="form-control">Female</option>
+                      </select>
                       </div>
+                      
                       <!-- <div class="form-group">
                         <button type="submit" name="setpass" class="btn btn-success">Set Password</button> 
                       </div> -->
@@ -64,8 +69,9 @@
                         <thead>
                           <tr>
                             <th> # </th>
-                            <th> Name </th>
+                            <th> Username </th>
                             <th> Password </th>
+                            <th> Sex </th>
                             <th> Status </th>
                             <th> Operation </th>
                           </tr>
@@ -80,6 +86,7 @@
                             <td> <?php echo $sel['m_id'] ?> </td>
                             <td> <?php echo $sel['name'] ?> </td>
                             <td> <?php echo $sel['password'] ?> </td>
+                            <td> <?php echo $sel['sex'] ?> </td>
                             <td> <?php echo $sel['status'] ?> </td>
                             <td>
                             <?php
@@ -115,25 +122,33 @@
           ?>
           <?php
           if(isset($_POST['btn'])){
-              
-              // echo "<script>window.location='addMember.php'</script>"; 
+            
             $length=8;
             $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $username = '';
             for ($i = 0; $i < $length; $i++) {
                 $username .= $characters[rand(0, strlen($characters) - 1)];
             }
+            $sex=$_POST['sex'];
+            if($sex === "Male"){
+              $img="male.jpg";
+            }else{
+              $img="female.jpg";
+            }
             $name=$_POST['username'];
             $date=date('m-d-y');
-            echo $username;
-            echo $name;
-            $sql=mysqli_query($con, "INSERT INTO member (name,status,approved) VALUES ('$name','offline','Unactivated')");
+            $sel=mysqli_query($con, "SELECT name FROM member WHERE name='$name'");
+            if(mysqli_num_rows($sel)>0){
+              echo "<script>alert('SORRY, USERNAME ARE EXISTED')</script>";
+            }else{
+              $sql=mysqli_query($con, "INSERT INTO member (name,sex,image,status,approved) VALUES ('$name','$sex','$img','offline','Unactivated')");
             if($sql){
               echo "<script>alert('DATA SAVED SUCCESSFULLY')</script>";
-              echo "<script>window.location = 'addMember.php'; </script>";
+              echo "<script>window.location = 'addMember.php?name=".$_SESSION['member_name']."'; </script>";
             }else{
               echo "<script>alert('SORRY, TRY AGAIN')</script>";
             }
+            }  
           }
           
           ?>

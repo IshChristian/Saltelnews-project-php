@@ -39,7 +39,7 @@ session_start();
                     $sql=mysqli_query($con, "SELECT * FROM category WHERE id=$nid");
                     $rows=mysqli_fetch_array($sql);
                     ?>
-                    <form action="addCategory.php?nid=<?php echo $nid ?>" method="POST">
+                    <form action="addCategory.php??name=<?php echo $_SESSION['member_name'] ?>&nid=<?php echo $nid ?>" method="POST">
                       <div class="form-group">
                         <label for="exampleInputName1">Title</label>
                         <input type="text" class="form-control" value="<?php echo $rows['name'] ?>" name="title" id="exampleInputName1" placeholder="Name">
@@ -65,7 +65,7 @@ session_start();
             $sql=mysqli_query($con, "UPDATE category SET name='$tlt',date='$date' WHERE id=$nid");
             if($sql){
               echo "<script>alert('DATA SAVED SUCCESSFULLY')</script>";
-              echo "<script>window.location = 'addCategory.php'; </script>";
+              echo "<script>window.location = 'addCategory.php?name=".$_SESSION['member_name']."'; </script>";
             }else{
               echo "<script>alert('SORRY, TRY AGAIN')</script>";
             }

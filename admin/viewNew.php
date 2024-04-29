@@ -4,7 +4,12 @@
   session_start();
   include "include/links.php";
   include "include/connect.php";
-
+  @$_SESSION['member_name']=$_GET['name'];
+$_SESSION['idd']=$_GET['name'];
+if(!@$_SESSION['member_name']){
+    echo "<script>window.location='login.php'</script>";
+    exit();
+}
   ?>
   </head>
   <body>

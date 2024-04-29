@@ -20,3 +20,9 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="assets/images/favicon.png" />
+    <?php
+    if(!@$_SESSION['member_name']){
+        echo "<script>window.location='login.php'</script>";
+        exit();
+    }
+    ?>

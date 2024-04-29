@@ -67,7 +67,8 @@ session_start();
     include "include/connect.php";
     if(isset($_POST['btn'])){
       $name = $_GET['name'];
-      $password = $_POST['password'];
+      $hash = $_POST['password'];
+      $password=password_hash($hash, PASSWORD_DEFAULT);
 
       $sql=mysqli_query($con, "UPDATE member SET password='$password' WHERE name='$name'");
       if($sql){

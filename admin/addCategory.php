@@ -34,7 +34,7 @@
                   <div class="card-body">
                     <h4 class="card-title">Category</h4>
                     <!-- <p class="card-description"> Basic form elements </p> -->
-                    <form action="addCategory.php" method="POST">
+                    <form action="addCategory.php?name=<?php echo $_SESSION['member_name'] ?>" method="POST">
                       <div class="form-group">
                         <label for="exampleInputName1">Title</label>
                         <input type="text" class="form-control" name="title" id="exampleInputName1" placeholder="Name">
@@ -97,7 +97,7 @@
             $sql=mysqli_query($con, "INSERT INTO category (name,date) VALUES ('$tlt','$date')");
             if($sql){
               echo "<script>alert('DATA SAVED SUCCESSFULLY')</script>";
-              echo "<script>window.location = 'addCategory.php'; </script>";
+              echo "<script>window.location = 'addCategory.php?name=".$_SESSION['member_name']."'; </script>";
             }else{
               echo "<script>alert('SORRY, TRY AGAIN')</script>";
             }

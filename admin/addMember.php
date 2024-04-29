@@ -34,7 +34,7 @@
                   <div class="card-body">
                     <h4 class="card-title">Member</h4>
                     <!-- <p class="card-description"> Basic form elements </p> -->
-                    <form action="addMember.php" method="POST">
+                    <form action="addMember.php?name=<?php echo $_SESSION['member_name'] ?>" method="POST">
                       <div class="form-group">
                         <label for="exampleInputName1">Username</label>
                         <input type="text" class="form-control" name="username" id="exampleInputName1" placeholder="username">
@@ -143,7 +143,7 @@
               $sql=mysqli_query($con, "INSERT INTO member (name,sex,image,status,approved) VALUES ('$name','$sex','$img','offline','Unactivated')");
             if($sql){
               echo "<script>alert('DATA SAVED SUCCESSFULLY')</script>";
-              echo "<script>window.location = 'addMember.php'; </script>";
+              echo "<script>window.location = 'addMember.php?name=".$_SESSION['member_name']."'; </script>";
             }else{
               echo "<script>alert('SORRY, TRY AGAIN')</script>";
             }

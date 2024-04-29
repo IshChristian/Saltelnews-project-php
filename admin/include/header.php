@@ -14,7 +14,7 @@
                   <span class="count bg-success"></span>
                 </div>
                 <div class="profile-name">
-                  <h5 class="mb-0 font-weight-normal"><?php echo $_SESSION["idd"] ?></h5>
+                  <h5 class="mb-0 font-weight-normal"><?php echo $_SESSION['member_name'] ?></h5>
                   <span>Gold Admin</span>
                 </div>
               </div>
@@ -41,7 +41,7 @@
             <span class="nav-link">Navigation</span>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="index.php">
+            <a class="nav-link" href="index.php?name=<?php echo $_SESSION['member_name'] ?>">
               <span class="menu-icon">
                 <i class="mdi mdi-speedometer"></i>
               </span>
@@ -49,7 +49,7 @@
             </a>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="addCategory.php">
+            <a class="nav-link" href="addCategory.php?name=<?php echo $_SESSION['member_name'] ?>">
               <span class="menu-icon">
                 <i class="mdi mdi-plus"></i>
               </span>
@@ -57,7 +57,7 @@
             </a>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="addMember.php">
+            <a class="nav-link" href="addMember.php?name=<?php echo $_SESSION['member_name'] ?>">
               <span class="menu-icon">
                 <i class="mdi mdi-plus"></i>
               </span>
@@ -65,7 +65,7 @@
             </a>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="addNews.php">
+            <a class="nav-link" href="addNews.php?name=<?php echo $_SESSION['member_name'] ?>">
               <span class="menu-icon">
                 <i class="mdi mdi-plus"></i>
               </span>
@@ -73,7 +73,7 @@
             </a>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="addAnnocement.php">
+            <a class="nav-link" href="addAnnocement.php?name=<?php echo $_SESSION['member_name'] ?>">
               <span class="menu-icon">
                 <i class="mdi mdi-plus"></i>
               </span>
@@ -81,7 +81,7 @@
             </a>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="feedback.php">
+            <a class="nav-link" href="feedback.php?name=<?php echo $_SESSION['member_name'] ?>">
               <span class="menu-icon">
                 <i class="mdi mdi-message"></i>
               </span>
@@ -89,7 +89,7 @@
             </a>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="reqAdverstising.php">
+            <a class="nav-link" href="reqAdverstising.php?name=<?php echo $_SESSION['member_name'] ?>">
               <span class="menu-icon">
                 <i class="mdi mdi-table-large"></i>
               </span>
@@ -105,7 +105,7 @@
             </a>
           </li> -->
           <li class="nav-item menu-items">
-            <a class="nav-link" href="logout.php">
+            <a class="nav-link" href="logout.php?name=<?php echo $_SESSION['member_name'] ?>">
               <span class="menu-icon">
                 <i class="mdi mdi-logout"></i>
               </span>

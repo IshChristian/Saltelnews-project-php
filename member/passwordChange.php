@@ -97,10 +97,14 @@ $uid=$_SESSION['idd'];
           <?php
           if(isset($_POST['btn'])){
             $name=$_POST['name'];
-            $pass=$_POST['pass'];
+           $hash = $_POST['pass'];
+            $password=password_hash($hash, PASSWORD_DEFAULT);
             // $date=date('y/m/d h:i:sa');
             // echo $date;
-            $sql=mysqli_query($con, "UPDATE admin SET name='$name', password='$pass'");
+            $sel=mysqli_query($con, "SELECT * FROM member WHERE name='$name'");
+            $result=mysqli_fetch_array($sel);
+            $mid=$result['m_id'];
+            $sql=mysqli_query($con, "UPDATE member SET name='$name', password='$password' WHERE m_id='$mid'");
             if($sql){
               echo "<script>alert('DATA SAVED SUCCESSFULLY')</script>";
               echo "<script>window.location = 'passwordChange.php'; </script>";

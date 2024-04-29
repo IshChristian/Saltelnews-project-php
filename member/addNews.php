@@ -37,11 +37,11 @@ session_start();
                     <form action="addNews.php" method="POST" enctype="multipart/form-data" class="forms-sample">
                       <div class="form-group">
                         <label for="exampleInputName1">Title</label>
-                        <input type="text" class="form-control" name="title" id="exampleInputName1" placeholder="Name">
+                        <input type="text" class="form-control" name="title" id="exampleInputName1" placeholder="Name" required>
                       </div>
                       <div class="form-group">
                         <label for="exampleInputName1">Category</label>
-                        <select name="category" class="form-control" id="">
+                        <select name="category" class="form-control" id="" required>
                           <option value="">Please select category</option>
                           <?php
                           $sql=mysqli_query($con, "SELECT * FROM category");
@@ -57,15 +57,15 @@ session_start();
                       </div>
                       <div class="form-group">
                         <label for="exampleTextarea1">Textarea</label>
-                        <textarea class="form-control" name="about" id="exampleTextarea1" rows="4"></textarea>
+                        <textarea class="form-control" name="about" id="exampleTextarea1" rows="4" required></textarea>
                       </div>
                       <div class="form-group">
                         <label for="exampleTextarea1">Uploads Cover image</label>
-                        <input type="file" class="form-control" name="image1" id="exampleInputName1">
+                        <input type="file" class="form-control" name="image1" id="exampleInputName1" required>
                       </div>
                       <div class="form-group">
                         <label for="exampleTextarea1">Uploads image</label>
-                        <input type="file" class="form-control" name="image" id="exampleInputName1">
+                        <input type="file" class="form-control" name="image" id="exampleInputName1" required>
                       </div>
                       <button type="submit" name="btn" class="btn btn-primary mr-2">Submit</button>
                       <button class="btn btn-dark">Cancel</button>
